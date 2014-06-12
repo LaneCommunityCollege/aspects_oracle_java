@@ -1,0 +1,86 @@
+---
+# main tasks.
+
+## On Debian family
+- name: Debian - Make sure install directory exists. New installs error on this.
+  when: ansible_os_family == "Debian" and aspects_oracle_java_unarchive
+  file:
+    state="directory"
+    path="{{ aspects_oracle_java_install_directory.Debian }}"
+    owner="root"
+    group="root"
+    mode="0755"
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_install
+
+- name: Debian - Untar java tarball
+  when: ansible_os_family == "Debian" and aspects_oracle_java_unarchive
+  unarchive:
+    copy=yes
+    src="downloads/{{ aspects_oracle_java_bin_filename }}"
+    dest="{{ aspects_oracle_java_install_directory.Debian }}/"
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_install
+    - untar
+
+- name: Debian - Run java alternative install command
+  when: ansible_os_family == "Debian" and aspects_oracle_java_set_as_default
+  shell:
+    update-alternatives --install /usr/bin/{{ item }} {{ item }} {{ aspects_oracle_java_install_directory.Debian }}/{{ aspects_oracle_java_bin_dirname }}/bin/{{ item }} 1
+  with_items: aspects_oracle_java_bin_list
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_update_alternatives
+
+- name: Debian - Run java alternative set command
+  when: ansible_os_family == "Debian" and aspects_oracle_java_set_as_default
+  shell:
+    update-alternatives --set {{ item }} {{ aspects_oracle_java_install_directory.Debian }}/{{ aspects_oracle_java_bin_dirname }}/bin/{{ item }}
+  with_items: aspects_oracle_java_bin_list
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_update_alternatives
+
+## On RedHat family
+- name: RedHat - Make sure install directory exists. New installs error on this.
+  when: ansible_os_family == "RedHat" and aspects_oracle_java_unarchive
+  file:
+    state="directory"
+    path="{{ aspects_oracle_java_install_directory.RedHat }}"
+    owner="root"
+    group="root"
+    mode="0755"
+  tags:
+      - aspects_oracle_java
+      - aspects_oracle_java_install
+
+- name: RedHat - Untar java tarball
+  when: ansible_os_family == "RedHat" and aspects_oracle_java_unarchive
+  unarchive:
+    copy=yes
+    src="downloads/{{ aspects_oracle_java_bin_filename }}"
+    dest="{{ aspects_oracle_java_install_directory.RedHat }}/"
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_install
+    - untar
+
+- name: RedHat - Run java alternative install command
+  when: ansible_os_family == "RedHat" and aspects_oracle_java_set_as_default
+  shell:
+    alternatives --install /usr/bin/{{ item }} {{ item }} {{ aspects_oracle_java_install_directory.RedHat }}/{{ aspects_oracle_java_bin_dirname }}/bin/{{ item }} 1
+  with_items: aspects_oracle_java_bin_list
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_update_alternatives
+
+- name: RedHat - Run java alternative set command
+  when: ansible_os_family == "RedHat" and aspects_oracle_java_set_as_default
+  shell:
+    alternatives --set {{ item }} {{ aspects_oracle_java_install_directory.RedHat }}/{{ aspects_oracle_java_bin_dirname }}/bin/{{ item }}
+  with_items: aspects_oracle_java_bin_list
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_update_alternatives

@@ -1,0 +1,54 @@
+---
+# defaults file for aspects_oracle_java
+
+aspects_oracle_java_unarchive: false
+aspects_oracle_java_set_as_default: true
+aspects_oracle_java_bin_filename: "server-jre-7u60-linux-x64.tar.gz"
+aspects_oracle_java_bin_dirname: "jdk1.7.0_60"
+aspects_oracle_java_install_directory:
+  Debian: "/usr/lib/jvm"
+  RedHat: "/usr/lib/jvm"
+
+aspects_oracle_java_bin_list:
+  - appletviewer
+  - apt
+  - extcheck
+  - idlj
+  - jar
+  - jarsigner
+  - java
+  - javac
+  - javadoc
+  - javafxpackager
+  - javah
+  - javap
+  - java-rmi.cgi
+  - jcmd
+  - jconsole
+  - jdb
+  - jhat
+  - jinfo
+  - jmap
+  - jps
+  - jrunscript
+  - jsadebugd
+  - jstack
+  - jstat
+  - jstatd
+  - jvisualvm
+  - keytool
+  - native2ascii
+  - orbd
+  - pack200
+  - policytool
+  - rmic
+  - rmid
+  - rmiregistry
+  - schemagen
+  - serialver
+  - servertool
+  - tnameserv
+  - unpack200
+  - wsgen
+  - wsimport
+  - xjc

@@ -8,6 +8,7 @@ aspects_oracle_java_bin_dirname: "jdk1.7.0_60"
 aspects_oracle_java_install_directory:
   Debian: "/usr/lib/jvm"
   RedHat: "/usr/lib/jvm"
+  Suse: "/usr/lib64/jvm"
 
 aspects_oracle_java_bin_list:
   - appletviewer

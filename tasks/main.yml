@@ -84,3 +84,45 @@
   tags:
     - aspects_oracle_java
     - aspects_oracle_java_update_alternatives
+
+## On Suse family
+- name: Suse - Make sure install directory exists. New installs error on this.
+  when: ansible_os_family == "Suse" and aspects_oracle_java_unarchive
+  file:
+    state="directory"
+    path="{{ aspects_oracle_java_install_directory.Suse }}"
+    owner="root"
+    group="root"
+    mode="0755"
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_install
+
+- name: Suse - Untar java tarball
+  when: ansible_os_family == "Suse" and aspects_oracle_java_unarchive
+  unarchive:
+    copy=yes
+    src="downloads/{{ aspects_oracle_java_bin_filename }}"
+    dest="{{ aspects_oracle_java_install_directory.Suse }}/"
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_install
+    - untar
+
+- name: Suse - Run java alternative install command
+  when: ansible_os_family == "Suse" and aspects_oracle_java_set_as_default
+  shell:
+    update-alternatives --install /usr/bin/{{ item }} {{ item }} {{ aspects_oracle_java_install_directory.Suse }}/{{ aspects_oracle_java_bin_dirname }}/bin/{{ item }} 1
+  with_items: aspects_oracle_java_bin_list
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_update_alternatives
+
+- name: Suse - Run java alternative set command
+  when: ansible_os_family == "Suse" and aspects_oracle_java_set_as_default
+  shell:
+    update-alternatives --set {{ item }} {{ aspects_oracle_java_install_directory.Suse }}/{{ aspects_oracle_java_bin_dirname }}/bin/{{ item }}
+  with_items: aspects_oracle_java_bin_list
+  tags:
+    - aspects_oracle_java
+    - aspects_oracle_java_update_alternatives

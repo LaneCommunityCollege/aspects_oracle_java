@@ -70,7 +70,7 @@
 - name: RedHat - Run java alternative install command
   when: ansible_os_family == "RedHat" and aspects_oracle_java_set_as_default
   shell:
-    alternatives --install /usr/bin/{{ item }} {{ item }} {{ aspects_oracle_java_install_directory.RedHat }}/{{ aspects_oracle_java_bin_dirname }}/bin/{{ item }} 1
+    rm /usr/bin/{{ item }} ; rm /var/lib/alternatives/{{ item }} ; alternatives --install /usr/bin/{{ item }} {{ item }} {{ aspects_oracle_java_install_directory.RedHat }}/{{ aspects_oracle_java_bin_dirname }}/bin/{{ item }} 1
   with_items: aspects_oracle_java_bin_list
   tags:
     - aspects_oracle_java
